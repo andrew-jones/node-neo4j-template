@@ -1,0 +1,13 @@
+########################################
+# Neo4j
+admin:
+    image: node:0.12
+    command: npm start
+    hostname: admin.local
+    ports:
+      - "3000:3000"
+    working_dir: /usr/src/app
+    volumes:
+      - ".:/usr/src/app"
+    links:
+      - neo4j:neo4j

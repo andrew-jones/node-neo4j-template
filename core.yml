@@ -1,0 +1,11 @@
+########################################
+# Neo4j
+neo4j:
+    image: neo4j:latest
+    hostname: neo4j.local
+    environment:
+      - NEO4J_AUTH=neo4j/neo4j.
+    ports:
+      - "7474:7474"
+    volumes:
+      - "./neo4j/data:/data"
