@@ -1,7 +1,7 @@
 ########################################
 # Neo4j
 admin:
-    image: node:0.12
+    image: node:6
     command: npm start
     hostname: admin.local
     ports:
