@@ -1,0 +1,50 @@
+extends layout
+
+block content
+    h1 @#{ingredient.name}
+
+    p
+        a(href='/ingredients') Back to everyone
+
+    if following.length
+        p @#{ingredient.name} is following #{following.length} ingredients:
+        // TODO should say 'ingredient' if only one! ;)
+        ul.ingredients
+            for other in following
+                li.ingredient
+                    form(action='/ingredients/#{ingredient.name}/unfollow', method='POST')
+                        a(href='/ingredients/#{other.name}') @#{other.name}
+                        input(type='hidden', name='otherIngredientname', value='#{other.name}')
+                        input(type='submit', class='unfollow', value='x')
+    else
+        p @#{ingredient.name} isn't following anyone currently.
+
+    if others.length
+        form(action='/ingredients/#{ingredient.name}/follow', method='POST')
+            p Add someone for @#{ingredient.name} to follow:
+            label
+                select(name='otherIngredientname', required)
+                    option(value='')
+                    for other in others
+                        option(value='#{other.name}') @#{other.name}
+            input(type='submit', value='Follow')
+    else
+        p There's no one else left for @#{ingredient.name} to follow!
+
+    form(action='/ingredients/#{ingredient.name}', method='POST')
+        p Edit this ingredient:
+        span @
+        input(type='text', name='name', placeholder='#{ingredient.name}', required,
+            minlength=Ingredient.VALIDATION_INFO.name.minLength,
+            maxlength=Ingredient.VALIDATION_INFO.name.maxLength,
+            pattern=Ingredient.VALIDATION_INFO.name.pattern.source,
+            title=Ingredient.VALIDATION_INFO.name.message,
+            value=name||'')
+        input(type='submit', value='Update')
+        if error
+            span.error &nbsp;#{error}
+
+    form(action='/ingredients/#{ingredient.name}', method='POST', onsubmit='return confirm("Are you sure?");')
+        p And if you're feeling destructive…
+        input(type='hidden', name='_method', value='DELETE')
+        input(type='submit', value='Delete Ingredient')

@@ -45,6 +45,12 @@ app.locals.title = 'Node-Neo4j Template'; // default title
 
 app.get('/', routes.site.index);
 
+app.get('/ingredients', routes.ingredients.list);
+app.post('/ingredients', routes.ingredients.create);
+app.get('/ingredients/:name', routes.ingredients.show);
+app.post('/ingredients/:name', routes.ingredients.edit);
+app.delete('/ingredients/:name', routes.ingredients.del);
+
 app.get('/users', routes.users.list);
 app.post('/users', routes.users.create);
 app.get('/users/:username', routes.users.show);
